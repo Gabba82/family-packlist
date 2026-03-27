@@ -1,0 +1,25 @@
+services:
+  family-packlist:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: family-packlist
+    restart: unless-stopped
+    ports:
+      - "${APP_PORT:-3000}:3000"
+    environment:
+      DATABASE_URL: "file:/app/data/app.db"
+      NEXT_TELEMETRY_DISABLED: "1"
+      PORT: "3000"
+    volumes:
+      - family_packlist_data:/app/data
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://127.0.0.1:3000/api/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 20s
+
+volumes:
+  family_packlist_data:
+    name: family_packlist_data

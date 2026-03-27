@@ -1,0 +1,135 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Person {
+  id          String       @id @default(cuid())
+  name        String
+  role        String
+  ageLabel    String?
+  position    Int          @default(0)
+  active      Boolean      @default(true)
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  packingItems PackingItem[]
+  baseItems   BaseItem[]
+  templateItems TemplateItem[]
+
+  @@index([position])
+}
+
+model Category {
+  id            String         @id @default(cuid())
+  name          String
+  color         String?
+  position      Int            @default(0)
+  active        Boolean        @default(true)
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  packingItems  PackingItem[]
+  baseItems     BaseItem[]
+  templateItems TemplateItem[]
+  listStates    ListCategoryState[]
+
+  @@unique([name])
+  @@index([position])
+}
+
+model BaseItem {
+  id                 String     @id @default(cuid())
+  name               String
+  active             Boolean    @default(true)
+  suggestedOnNewList Boolean    @default(true)
+  position           Int        @default(0)
+  targetType         String     @default("FAMILY")
+  categoryId         String?
+  personId           String?
+  createdAt          DateTime   @default(now())
+  updatedAt          DateTime   @updatedAt
+  category           Category?  @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  person             Person?    @relation(fields: [personId], references: [id], onDelete: SetNull)
+
+  @@index([position])
+  @@index([active])
+}
+
+model Template {
+  id          String         @id @default(cuid())
+  name        String
+  description String?
+  active      Boolean        @default(true)
+  position    Int            @default(0)
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+  items       TemplateItem[]
+
+  @@unique([name])
+  @@index([position])
+}
+
+model TemplateItem {
+  id         String     @id @default(cuid())
+  templateId String
+  name       String
+  active     Boolean    @default(true)
+  position   Int        @default(0)
+  targetType String @default("FAMILY")
+  categoryId String?
+  personId   String?
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+  template   Template   @relation(fields: [templateId], references: [id], onDelete: Cascade)
+  category   Category?  @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  person     Person?    @relation(fields: [personId], references: [id], onDelete: SetNull)
+
+  @@index([templateId, position])
+}
+
+model PackingList {
+  id          String              @id @default(cuid())
+  name        String
+  notes       String?
+  createdAt   DateTime            @default(now())
+  updatedAt   DateTime            @updatedAt
+  items       PackingItem[]
+  categories  ListCategoryState[]
+}
+
+model PackingItem {
+  id           String      @id @default(cuid())
+  listId       String
+  name         String
+  checked      Boolean     @default(false)
+  position     Int         @default(0)
+  targetType   String      @default("FAMILY")
+  categoryId   String?
+  personId     String?
+  sourceType   String?     // base_item | template | manual
+  sourceRefId  String?
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+  list         PackingList @relation(fields: [listId], references: [id], onDelete: Cascade)
+  category     Category?   @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  person       Person?     @relation(fields: [personId], references: [id], onDelete: SetNull)
+
+  @@index([listId, position])
+  @@index([checked])
+}
+
+model ListCategoryState {
+  id         String      @id @default(cuid())
+  listId     String
+  categoryId String
+  collapsed  Boolean     @default(false)
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+  list       PackingList @relation(fields: [listId], references: [id], onDelete: Cascade)
+  category   Category    @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  @@unique([listId, categoryId])
+}
