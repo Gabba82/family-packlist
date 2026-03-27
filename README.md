@@ -43,6 +43,20 @@ family-packlist/
 
 ## Despliegue paso a paso (Docker Compose)
 
+### Opción recomendada: copiar desde GitHub
+
+En el servidor `192.168.1.112`:
+
+```bash
+sudo mkdir -p /opt
+cd /opt
+sudo git clone https://github.com/TU_USUARIO/TU_REPO.git family-packlist
+sudo chown -R $USER:$USER /opt/family-packlist
+cd /opt/family-packlist
+```
+
+Después continúa en el paso **2) Variables de entorno**.
+
 ### 1) Preparar carpeta en servidor
 
 En tu servidor `192.168.1.112`:
