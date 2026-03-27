@@ -59,7 +59,7 @@ Después continúa en el paso **2) Variables de entorno**.
 
 ### 1) Preparar carpeta en servidor
 
-En tu servidor `192.168.1.112`:
+En tu servidor `XXX.XXX.XXX.XXX` `la IP / Maquina donde quieras desplegar`:
 
 ```bash
 mkdir -p /opt/family-packlist
