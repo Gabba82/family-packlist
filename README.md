@@ -45,7 +45,7 @@ family-packlist/
 
 ### Opción recomendada: copiar desde GitHub
 
-En el servidor `XXX.XXX.XXX.XXX` `la IP / Maquina donde quieras desplegar` :
+En el servidor `XXX.XXX.XXX.XXX` `la IP / Maquina donde quieras desplegar` `Ejemplo: 192.168.1.112` :
 
 ```bash
 sudo mkdir -p /opt
@@ -59,7 +59,7 @@ Después continúa en el paso **2) Variables de entorno**.
 
 ### 1) Preparar carpeta en servidor
 
-En tu servidor `XXX.XXX.XXX.XXX` `la IP / Maquina donde quieras desplegar`:
+En tu servidor `XXX.XXX.XXX.XXX` `la IP / Maquina donde quieras desplegar` `Ejemplo: 192.168.1.112` `a partir de ahora el ejmeplo sera la ip: 192.168.1.112`:
 
 ```bash
 mkdir -p /opt/family-packlist
