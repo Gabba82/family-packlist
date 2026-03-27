@@ -45,7 +45,7 @@ family-packlist/
 
 ### Opción recomendada: copiar desde GitHub
 
-En el servidor `192.168.1.112`:
+En el servidor `XXX.XXX.XXX.XXX`:
 
 ```bash
 sudo mkdir -p /opt
