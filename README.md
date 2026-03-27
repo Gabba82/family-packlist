@@ -52,7 +52,8 @@ mkdir -p /opt/family-packlist
 cd /opt/family-packlist
 ```
 
-Copia aquí todo el contenido del proyecto.
+Copia aquí el contenido del proyecto **sin crear una carpeta anidada** `family-packlist/family-packlist`.
+Alternativa recomendada: desplegar directamente desde GitHub (sección "Replicar con GitHub").
 
 ### 2) Variables de entorno
 
@@ -100,7 +101,7 @@ Acceso:
 ## Reverse proxy (Nginx Proxy Manager)
 
 - Host destino: `192.168.1.112`
-- Puerto destino: `APP_PORT` (ejemplo: `3000`)
+- Puerto destino: el valor real configurado en `APP_PORT` (ejemplo: `3001`)
 - Esquema: `http`
 
 ## Volumen y persistencia
@@ -161,6 +162,13 @@ docker compose up -d --build
 
 Los datos permanecen porque están en `family_packlist_data`.
 
+Si desplegaste por copia manual (sin `git clone`), reemplaza archivos del proyecto y luego ejecuta:
+
+```bash
+cd /opt/family-packlist
+docker compose up -d --build
+```
+
 ## Replicar con GitHub (recomendado)
 
 ### Publicar este proyecto en tu repositorio
@@ -168,7 +176,7 @@ Los datos permanecen porque están en `family_packlist_data`.
 En tu máquina local (donde tienes la carpeta `family-packlist`):
 
 ```bash
-cd /home/gabba82/family-packlist
+cd /ruta/local/family-packlist
 rm -rf .next node_modules prisma/prisma/dev.db prisma/prisma/dev.db-journal tsconfig.tsbuildinfo
 git init
 git add .
